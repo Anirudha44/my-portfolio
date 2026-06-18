@@ -1,0 +1,488 @@
+<!doctype html>
+<!--
+  Single-file personal portfolio (dark theme with olive green accents).
+  All CSS and JS are included below with short comments for learning.
+-->
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>My Portfolio</title>
+    <!-- Simple, friendly description for search engines -->
+    <meta name="description" content="Personal portfolio — projects, about, contact." />
+
+    <!--
+    Inline CSS: define a dark theme with an olive-green accent color.
+    Using CSS variables makes it easy to change the accent later.
+  -->
+    <style>
+        /* Theme variables */
+        :root {
+            --bg: #0b0f12;
+            /* page background (near-black) */
+            --panel: #0f1416;
+            /* slightly lighter panels */
+            --muted: #9aa5a1;
+            /* muted text */
+            --accent: #808000;
+            /* olive green accent */
+            --accent-strong: #93a100;
+            /* slightly brighter accent for hover */
+            --glass: rgba(255, 255, 255, 0.03);
+            --radius: 12px;
+            --max-width: 980px;
+            --mono: ui-monospace, SFMono-Regular, Menlo, Monaco, "Roboto Mono", monospace;
+        }
+
+        /* Reset and base styles */
+        * {
+            box-sizing: border-box
+        }
+
+        html,
+        body {
+            height: 100%
+        }
+
+        body {
+            margin: 0;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+            background: var(--bg);
+            color: #e6efe9;
+            /* primary text on dark background */
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.45;
+            padding: 32px 18px;
+            display: flex;
+            justify-content: center;
+        }
+
+        /* Page container centers content and constrains width */
+        .container {
+            width: 100%;
+            max-width: var(--max-width);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.02), transparent);
+            border-radius: 16px;
+            padding: 28px;
+            box-shadow: 0 6px 30px rgba(2, 6, 8, 0.6);
+            backdrop-filter: blur(6px);
+        }
+
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        /* Name and role */
+        .brand {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .brand .name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: 0.2px
+        }
+
+        .brand .role {
+            color: var(--muted);
+            font-size: 0.9rem
+        }
+
+        /* Simple nav with anchor links */
+        nav a {
+            color: var(--muted);
+            text-decoration: none;
+            margin-left: 14px;
+            font-weight: 600;
+            padding: 8px 10px;
+            border-radius: 8px;
+            transition: all .18s ease;
+        }
+
+        nav a:hover {
+            color: var(--accent);
+            background: var(--glass)
+        }
+
+        /* Hero section */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 18px;
+            align-items: center;
+            margin-bottom: 18px;
+        }
+
+        .intro {
+            background: var(--panel);
+            padding: 18px;
+            border-radius: var(--radius);
+        }
+
+        /* Project cards */
+        .projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 14px;
+            margin: 16px 0 22px 0;
+        }
+
+        .card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.01), rgba(255, 255, 255, 0.005));
+            padding: 14px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.03);
+        }
+
+        .card h3 {
+            margin: 0 0 8px 0
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 6px 8px;
+            font-size: 0.8rem;
+            color: var(--bg);
+            background: var(--accent);
+            border-radius: 8px
+        }
+
+        /* Contact area */
+        .contact {
+            display: grid;
+            grid-template-columns: 1fr 260px;
+            gap: 16px;
+            align-items: start;
+        }
+
+        form {
+            background: var(--panel);
+            padding: 16px;
+            border-radius: 12px
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            background: transparent;
+            color: inherit
+        }
+
+        button {
+            margin-top: 8px;
+            background: var(--accent);
+            color: var(--bg);
+            border: 0;
+            padding: 10px 14px;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: var(--accent-strong)
+        }
+
+        /* Footer */
+        footer {
+            color: var(--muted);
+            margin-top: 20px;
+            text-align: center
+        }
+
+        /* Gallery styles - matches existing colors and variables */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 10px;
+            margin: 14px 0 22px 0;
+        }
+
+        .thumb {
+            display: block;
+            width: 100%;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            cursor: pointer;
+            transition: transform .18s ease, box-shadow .18s ease;
+        }
+
+        .thumb:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6)
+        }
+
+        /* Lightbox overlay for viewing larger photos */
+        .lightbox {
+            position: fixed;
+            inset: 0;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            background: rgba(3, 6, 8, 0.75);
+            z-index: 1200;
+            padding: 24px;
+        }
+
+        .lightbox img {
+            max-width: 100%;
+            max-height: 100%;
+            border-radius: 12px
+        }
+
+        .lightbox .close {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            background: var(--panel);
+            color: var(--muted);
+            padding: 8px 10px;
+            border-radius: 8px;
+            cursor: pointer
+        }
+
+        /* Responsive tweaks for small screens */
+        @media (max-width:640px) {
+            .hero {
+                grid-template-columns: 1fr
+            }
+
+            .contact {
+                grid-template-columns: 1fr
+            }
+
+            nav a {
+                margin-left: 8px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header: your name and simple navigation -->
+        <header>
+            <div class="brand">
+                <div class="name">Anirudha Khuntia</div>
+                <div class="role">Aspiring Product Manager • MBA Candidate, XIMB</div>
+            </div>
+            <nav>
+                <!-- anchor links scroll to sections; IDs below must match -->
+                <a href="#about">About</a>
+                <a href="#projects">Projects</a>
+                <a href="#contact">Contact</a>
+            </nav>
+        </header>
+
+        <!-- Hero: short welcome and a one-line intro -->
+        <section class="hero">
+            <div class="intro">
+                <h1 style="margin:0 0 6px 0;">Hi — I'm Anirudha.</h1>
+                <p style="margin:0; color:var(--muted);">Aspiring Product Manager blending engineering experience with
+                    MBA training to build customer-centered products and measurable business outcomes.</p>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:8px;align-items:flex-end;">
+                <!-- quick contact button that scrolls to the contact form -->
+                <a href="#contact" style="text-decoration:none"><button>Let's talk</button></a>
+                <div style="color:var(--muted); font-size:0.9rem">Based in your city</div>
+            </div>
+        </section>
+
+        <!-- About section -->
+        <section id="about" style="margin-bottom:14px">
+            <div class="card">
+                <h2>About me</h2>
+                <!-- Expanded bio tailored for an aspiring Product Manager -->
+                <p style="color:var(--muted); margin:6px 0 0 0">Hello — I'm Anirudha, an aspiring Product Manager
+                    currently pursuing an MBA in Business Management at XIMB. I come from an engineering background and
+                    enjoy turning complex problems into simple, customer-focused solutions. I combine technical fluency
+                    with product thinking, user research, and cross-functional collaboration.</p>
+
+                <p style="color:var(--muted); margin:8px 0 0 0">My engineering training gives me a strong analytical
+                    foundation and the ability to work closely with development teams. My MBA is sharpening my skills in
+                    market analysis, strategy, stakeholder management, and data-driven decision-making — all of which
+                    help me bridge business goals and technical execution effectively.</p>
+            </div>
+        </section>
+        <!-- Projects grid: each card shows a short summary -->
+        <section id="projects">
+            <h2 style="margin:0 0 10px 0">Selected projects</h2>
+            <div class="projects">
+                <article class="card">
+                    <h3>Market Research & Opportunity Assessment</h3>
+                    <p style="color:var(--muted); margin:6px 0">Led user interviews, surveys, and competitive analysis
+                        to identify a $Xk opportunity for a B2C feature. Defined target segments and top user problems
+                        to inform product direction.</p>
+                    <div style="margin-top:10px"><span class="tag">Research</span></div>
+                </article>
+
+                <article class="card">
+                    <h3>Product Roadmap Case Study</h3>
+                    <p style="color:var(--muted); margin:6px 0">Created a prioritized roadmap and a RICE-based
+                        prioritization framework for a multi-quarter roadmap. Worked with engineering and design to
+                        scope MVPs and define success metrics.</p>
+                    <div style="margin-top:10px"><span class="tag">Strategy</span></div>
+                </article>
+
+                <article class="card">
+                    <h3>A/B Testing & Growth Experiment</h3>
+                    <p style="color:var(--muted); margin:6px 0">Designed and analyzed A/B experiments to improve
+                        activation and retention metrics, including hypothesis, metric definitions, and results that
+                        informed product decisions.</p>
+                    <div style="margin-top:10px"><span class="tag">Growth</span></div>
+                </article>
+
+                <article class="card">
+                    <h3>Feature Prioritization Prototype (AI-assisted)</h3>
+                    <p style="color:var(--muted); margin:6px 0">Built a lightweight scoring prototype to rank feature
+                        ideas by impact, effort, and strategic fit. Demonstrated faster stakeholder alignment during
+                        prioritization workshops.</p>
+                    <div style="margin-top:10px"><span class="tag">Analytics</span></div>
+                </article>
+            </div>
+        </section>
+
+        <!-- Photo Gallery: add your images here -->
+        <!-- GALLERY START - Replace or add <img> thumbnails inside the .gallery div -->
+        <section id="gallery">
+            <h2 style="margin:0 0 10px 0">Photo gallery</h2>
+            <div class="gallery">
+                <!-- Local placeholder images are in the images/ folder. Replace with your own files (jpg/png/svg). -->
+                <img src="images\IMG_5561 (1).JPG" alt="Photo 1"
+                    class="thumb" />
+                <img src="images\IMG_5984.JPG" alt="Photo 2"
+                    class="thumb" />
+                <img src="images\IMG_6108.JPG" alt="Photo 3"
+                    class="thumb" />
+                <img src="images\IMG_6335.JPG" alt="Photo 4"
+                    class="thumb" />
+            </div>
+        </section>
+        <!-- GALLERY END -->
+
+        <!-- Contact: form on the left, quick links on the right -->
+        <section id="contact" style="margin-top:6px">
+            <h2 style="margin:0 0 10px 0">Contact</h2>
+            <div class="contact">
+                <!-- Simple contact form (no backend) -->
+                <form id="contactForm">
+                    <label for="name">Name</label>
+                    <input id="name" name="name" placeholder="Your name" required />
+
+                    <label for="email">Email</label>
+                    <input id="email" name="email" type="email" placeholder="you@example.com" required />
+
+                    <label for="message">Message</label>
+                    <textarea id="message" name="message" rows="4" placeholder="Say hello or ask about a project"
+                        required></textarea>
+
+                    <button type="submit">Send</button>
+                </form>
+
+                <aside
+                    style="padding:12px; border-radius:12px; background:linear-gradient(180deg, rgba(255,255,255,0.01), transparent);">
+                    <h3 style="margin:0 0 8px 0">Quick links</h3>
+                    <p style="color:var(--muted); margin:0 0 12px 0">Social handles, résumé, or GitHub links go here.
+                    </p>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap">
+                        <a href="https://github.com/Anirudha44" target="_blank" rel="noopener"
+                            style="color:var(--muted); text-decoration:none">Anirudha44 (Anirudha Khuntia)</a>
+                        <a href="https://www.linkedin.com/in/anirudha-khuntia-9785a3213/" target="_blank" rel="noopener"
+                            style="color:var(--muted); text-decoration:none">LinkedIn</a>
+                        <a href="#" style="color:var(--muted); text-decoration:none">Resume</a>
+                    </div>
+                </aside>
+            </div>
+        </section>
+
+        <footer>
+            <p style="margin:12px 0 0 0">© <span id="year"></span> Anirudha Khuntia — Built with a minimal single-file
+                portfolio</p>
+        </footer>
+    </div>
+
+    <!--
+    Inline JavaScript: small behaviors and comments to explain what's happening.
+    Keep JS minimal so it's easy to learn and adapt.
+  -->
+    <script>
+        // Set the current year in the footer (keeps the page up-to-date)
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        // Smooth scrolling for in-page anchor links (modern browsers support scroll behavior)
+        // This improves UX when clicking the nav links above.
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', function (e) {
+                const targetId = this.getAttribute('href').slice(1);
+                const target = document.getElementById(targetId);
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Handle the contact form submission locally (no backend).
+        // We validate, then show a small success message.
+        const form = document.getElementById('contactForm');
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); // prevent the real form submission
+
+            // Simple client-side validation (browser also validates required fields)
+            const name = form.name.value.trim();
+            const email = form.email.value.trim();
+            const message = form.message.value.trim();
+
+            if (!name || !email || !message) {
+                alert('Please complete all fields before sending.');
+                return;
+            }
+
+            // In a real site you'd send this data to a server (fetch/XHR).
+            // Here we just show a polite confirmation and reset the form.
+            alert('Thanks, ' + name + '! Your message was recorded (demo).');
+            form.reset();
+        });
+
+        // Small helper: log a friendly message for learners looking at the console.
+        console.log('Portfolio loaded — edit index.html to customize content, styles, and scripts.');
+
+        /* Gallery behavior: open clicked thumbnail in a lightbox overlay */
+        (function () {
+            // Create lightbox element and append to the document
+            const lb = document.createElement('div'); lb.className = 'lightbox';
+            lb.innerHTML = '<button class="close">Close</button><img alt=""/>';
+            document.body.appendChild(lb);
+
+            const lbImg = lb.querySelector('img');
+            const closeBtn = lb.querySelector('.close');
+
+            // Click on thumbnail -> show lightbox with larger image
+            document.querySelectorAll('.thumb').forEach(img => {
+                img.addEventListener('click', () => {
+                    lbImg.src = img.src; // swap to your larger image URL if available
+                    lb.style.display = 'flex';
+                });
+            });
+
+            // Close interactions
+            closeBtn.addEventListener('click', () => lb.style.display = 'none');
+            lb.addEventListener('click', (e) => { if (e.target === lb) lb.style.display = 'none'; });
+        })();
+    </script>
+</body>
+
+</html>
